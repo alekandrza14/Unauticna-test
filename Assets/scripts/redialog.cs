@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class redialog : MonoBehaviour
+{
+    public deldialog dialog;
+    public string[] s;
+    public string sm;
+    public string[] se;
+    public string sme;
+    public string text;
+    public string bol;
+    public bool iznendial;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+       
+        if (VarSave.EnterFloat(bol) && !iznendial)
+        {
+            dialog.s = s;
+            dialog.sm = sm; 
+            dialog.se = se;
+            dialog.sme = sme;
+            dialog.text.text = text;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (VarSave.EnterFloat(bol) && iznendial)
+        {
+            dialog.s = s;
+            dialog.sm = sm;
+	  dialog.se = se;
+            dialog.sme = sme;
+            dialog.text.text = text;
+            VarSave.DeleteKey(bol);
+        }
+    }
+}
