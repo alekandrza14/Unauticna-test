@@ -42,13 +42,13 @@ public class modulyogir2 : MonoBehaviour
         }
         if (povedenie == 0)
         {
-            transform.rotation = new Quaternion(0, rot, 0, 1);
+            
             anim.SetBool("New Bool",false);
         }
         if (povedenie == 1)
         {
             rot = Random.Range(-2.0f, 3f);
-            transform.rotation = new Quaternion(0, rot, 0, 1);
+            transform.Rotate(0, rot * 180, 0);
             povedenie = 2;
             anim.SetBool("New Bool", true);
             
@@ -59,7 +59,7 @@ public class modulyogir2 : MonoBehaviour
             {
                 anim.SetBool("New Bool", true);
             }
-            transform.rotation = new Quaternion(0, rot, 0, 1);
+            
             transform.Translate(0,0,4*Time.deltaTime);
         }
     }

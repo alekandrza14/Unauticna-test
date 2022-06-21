@@ -50,6 +50,7 @@ public class mover : MonoBehaviour
     public float rjump;
     public float gr; public float pl;
     public bool igr;
+    public bool isplanet;
     public bool issweming;
     public Collision c;
     public Animator anim;
@@ -176,7 +177,12 @@ public class mover : MonoBehaviour
     }
     private void Awake()
     {
-        
+        if (isplanet)
+        {
+            gameObject.AddComponent<PlanetGravity>().body = transform;
+            gameObject.GetComponent<PlanetGravity>().gravity = tjump;
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
+        }
             playerdata.Loadeffect();
         
         ionenergy.energy = 0;
@@ -409,19 +415,12 @@ public class mover : MonoBehaviour
     }
     public void stop()
     {
-        if (g1.velocity.y < -vel * 2)
-        {
-            GetComponent<CapsuleCollider>().height = vel * g1.velocity.y * 2;
-        }
-        if (g1.velocity.y > -vel * 2)
-        {
-            GetComponent<CapsuleCollider>().height = vel;
-        }
-        if (tjump < vel * 2)
+        GetComponent<CapsuleCollider>().height = vel;
+        if (tjump < -vel * 2)
         {
 
 
-            GetComponent<CapsuleCollider>().height += -tjump * 1f;
+            GetComponent<CapsuleCollider>().height += -tjump * 0.5f;
         }
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
         {
@@ -433,6 +432,11 @@ public class mover : MonoBehaviour
     }
     void Update()
     {
+        if (isplanet)
+        {
+            
+            gameObject.GetComponent<PlanetGravity>().gravity = tjump;
+        }
         if (playerdata.Geteffect("invisible") != null)
         {
 
@@ -659,7 +663,7 @@ public class mover : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
             }
         }
-        if (!issweming && !Input.GetKey(KeyCode.F) && del == null)
+        if (!issweming && !Input.GetKey(KeyCode.F) && del == null && !Input.GetKey(KeyCode.LeftShift))
         {
 
             RenderSettings.fogStartDistance = fog;
@@ -746,7 +750,7 @@ public class mover : MonoBehaviour
             }
         }
 
-        if (issweming && !Input.GetKey(KeyCode.F) && del != null)
+        if (issweming && !Input.GetKey(KeyCode.F) && del != null && !Input.GetKey(KeyCode.LeftShift))
         {
             if (!del.stopPlayer)
             {
@@ -781,7 +785,7 @@ public class mover : MonoBehaviour
                 }
             }
         }
-        if (!issweming && !Input.GetKey(KeyCode.F) && del != null)
+        if (!issweming && !Input.GetKey(KeyCode.F) && del != null && !Input.GetKey(KeyCode.LeftShift))
         {
             if (!del.stopPlayer)
             {
@@ -817,7 +821,7 @@ public class mover : MonoBehaviour
                 }
             }
         }
-        if (issweming && !Input.GetKey(KeyCode.F) && del == null)
+        if (issweming && !Input.GetKey(KeyCode.F) && del == null && !Input.GetKey(KeyCode.LeftShift))
         {
 
 
@@ -872,7 +876,11 @@ public class mover : MonoBehaviour
 
                 sr.transform.Rotate(-Input.GetAxis("Mouse Y") * sm, 0, 0);
             }
-            g.transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * sm, 0));
+            if (!Input.GetKey(KeyCode.LeftShift))
+            {
+
+                g.transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * sm, 0));
+            }
 
         }
         else
@@ -916,7 +924,7 @@ public class mover : MonoBehaviour
         {
             tjump -= Time.deltaTime * gr;
 
-            g1.velocity += new Vector3(0, -10, 0);
+            g1.velocity += -transform.up * 10;
         }
         if (issweming)
         {
@@ -942,21 +950,21 @@ public class mover : MonoBehaviour
                 igr = false;
             }
         }
-        if (Input.GetKey(KeyCode.Space) && !igr && !issweming && s2)
+        if (Input.GetKey(KeyCode.Space) && !igr && !issweming && s2 && !Input.GetKey(KeyCode.LeftShift))
         {
             igr = true;
         }
         if (igr && !issweming && !Input.GetKey(KeyCode.F) && s2)
         {
-            g1.velocity += new Vector3(0, jump * tjump, 0);
+            g1.velocity += transform.up * jump * tjump;
         }
         if (igr && !issweming && !s2)
         {
-            g1.velocity += new Vector3(0, tjump, 0);
-            g1.velocity = -new Vector3(0, 50, 0);
+            g1.velocity -= transform.up * tjump;
+            g1.velocity += -transform.up * -50;
         }
 
-        if (Input.GetKey(KeyCode.Space) && !igr && issweming && tjump < rjump / 2)
+        if (Input.GetKey(KeyCode.Space) && !igr && issweming && tjump < rjump / 2 && !Input.GetKey(KeyCode.LeftShift))
         {
             igr = true;
         }
@@ -964,7 +972,19 @@ public class mover : MonoBehaviour
         {
             tjump = rjump;
         }
-
+        if(isplanet)
+        {
+            
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            anim.SetBool("sit",true);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            anim.SetBool("sit", false);
+        }
 
     }
     public void saveing()
