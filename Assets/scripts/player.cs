@@ -219,17 +219,26 @@ public class musave : MonoBehaviourPunCallbacks
             Photon.Pun.PhotonView[] players = new Photon.Pun.PhotonView[0];
             players = GameObject.FindObjectsOfType<Photon.Pun.PhotonView>();
 
+
             for (int i = 0; i < players.Length; i++)
             {
 
                 if (players[i].IsMine)
                 {
-                    t = players[i].GetComponent<player>().transform;
-                }
+                    Photon.Pun.PhotonNetwork.MasterClient.NickName = players[Random.Range(0, players.Length)].ViewID.ToString();
+                    t = Photon.Pun.PhotonNetwork.GetPhotonView(int.Parse(Photon.Pun.PhotonNetwork.MasterClient.NickName)).transform;
 
+                }
             }
-        }
-        return t;
+
+
+
+
+
+
+
+                }
+                return t;
     }
     static public void load(Transform transform)
     {
@@ -488,12 +497,13 @@ public class player : MonoBehaviour
     float tic, time = 4; public float tic2, time2 = 4;
     bool s2 = true;
     bool isthirdperson;
+    bool isplanet;
     public GameObject sr; 
     public GameObject thelight;
     public Material memat;
     public Material othermat;
     public GameObject[] mybody;
-
+    float tics;
     float vel;
     public void load()
     {
@@ -527,6 +537,14 @@ public class player : MonoBehaviour
     }
     public void main_load()
     {
+        if (isplanet)
+        {
+            gameObject.AddComponent<PlanetGravity>().body = transform;
+            gameObject.GetComponent<PlanetGravity>().gravity = tjump;
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
+        }
+        playerdata.Loadeffect();
+        ionenergy.energy = 0;
         if (GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
             playerdata.Loadeffect();
@@ -537,7 +555,8 @@ public class player : MonoBehaviour
         gr = load1.gr;
         jump = load1.jump;
         tjump = load1.tjump;
-        rjump = load1.rjump;
+        rjump = load1.rjump; 
+        isplanet = load1.isplanet;
         pl = load1.pl;
         watermask = load1.watermask;
         if (!load1.islight)
@@ -730,6 +749,7 @@ public class player : MonoBehaviour
     }
     private void Awake()
     {
+
         if (!GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
             for (int i = 0; i < mybody.Length; i++)
@@ -875,6 +895,11 @@ public class player : MonoBehaviour
     }
     void Update()
     {
+        if (isplanet)
+        {
+
+            gameObject.GetComponent<PlanetGravity>().gravity = tjump;
+        }
         musave.GetUF();
         if (!GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
@@ -1251,7 +1276,33 @@ public class player : MonoBehaviour
                 tjump = rjump;
             }
 
+            if (isplanet)
+            {
 
+                gameObject.GetComponent<Rigidbody>().useGravity = false;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                anim.SetBool("sit", true);
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                anim.SetBool("sit", false);
+            }
+            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Tab) && Getstats.GetPlayerLevel() >= 1)
+            {
+
+                if (tics >= 2)
+                {
+                    transform.Translate(0, 0, 5);
+                    tics = 0;
+                }
+            }
+            if (!Input.GetKey(KeyCode.F))
+            {
+                tics += Time.deltaTime;
+                g1.useGravity = true;
+            }
         }
 
     }

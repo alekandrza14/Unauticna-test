@@ -11,6 +11,7 @@ public class load1
     static public float jump;
     static public float rjump;
     static public bool islight;
+    static public bool isplanet;
     static public RawImage watermask;
     static public float gr; static public float pl;
     static public Color bg; static public CameraClearFlags bg2;
@@ -189,7 +190,7 @@ public class mover : MonoBehaviour
         vel = GetComponent<CapsuleCollider>().height;
         if (Photon.Pun.PhotonNetwork.IsConnected)
         {
-
+            load1.isplanet = isplanet;
             load1.gr = gr;
             load1.jump = jump;
             load1.rjump = rjump;

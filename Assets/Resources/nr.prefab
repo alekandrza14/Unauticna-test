@@ -798,6 +798,7 @@ MonoBehaviour:
   - {fileID: 1927871681178129486}
   - {fileID: 3220854634139168344}
   - {fileID: 2605183320079978082}
+  - {fileID: 6932192538614816223}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1193,6 +1194,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: swem
+  - Type: 4
+    SynchronizeType: 2
+    Name: fall
+  - Type: 4
+    SynchronizeType: 2
+    Name: sit
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
