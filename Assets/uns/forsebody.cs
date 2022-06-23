@@ -5,39 +5,74 @@ using UnityEngine;
 public class forsebody : MonoBehaviour
 {
     public debug script;
+    public unScript script1;
     float tic; int tir; float time = 1;
     // Start is called before the first frame update
     void Start()
     {
-        if (gameObject.GetComponent<Rigidbody>())
+        if (!gameObject.GetComponent<Rigidbody>())
         {
 
 
             gameObject.AddComponent<Rigidbody>();
         }
-        if (script.outs2.Count != 0)
+        if (script != null)
         {
+            if (script.outs2.Count != 0)
+            {
 
 
-            time = float.Parse(script.outs2[0]);
+                time = float.Parse(script.outs2[0]);
+            }
+
+        }
+        if (script1 != null)
+        {
+            if (script1.outs2.Count != 0)
+            {
+
+
+                time = float.Parse(script1.outs2[0]);
+            }
         }
     }
 
         // Update is called once per frame
-        void Update()
+    void Update()
     {
-        if (tir >= script.outsv.Count)
+        if (script != null)
         {
-            tir=0;
-            tic = 0;
+            if (tir >= script.outsv.Count)
+            {
+                tir = 0;
+                tic = 0;
+            }
+
+            tic += Time.deltaTime;
+            if (tic >= time)
+            {
+                GetComponent<Rigidbody>().velocity += new Vector3(script.outsv[tir].x, 0, script.outsv[tir].y) * 10;
+                tir++;
+                tic = 0;
+            }
         }
-        
-        tic += Time.deltaTime;
-        if (tic >= time)
+        if (script1 != null)
         {
-            GetComponent<Rigidbody>().velocity += new Vector3(script.outsv[tir].x, 0, script.outsv[tir].y)*10;
-            tir++;
-            tic = 0;
+            
+            if (tir >= script1.outsv.Count)
+            {
+
+                tir = 0;
+                tic = 0;
+            }
+
+            tic += Time.deltaTime;
+            if (tic >= time)
+            {
+                GetComponent<Rigidbody>().velocity += new Vector3(script1.outsv[tir].x, 0, script1.outsv[tir].y) * 10;
+                tir++;
+                tic = 0;
+            }
         }
     }
 }

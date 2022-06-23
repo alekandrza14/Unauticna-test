@@ -13,7 +13,7 @@ public class cistalenemy2 : MonoBehaviour
     public Rigidbody rb;
     public Animator anim;
     public float rot;
-    public Transform player; public Transform craft; public Transform craft1; public Transform craft2;
+    public Transform player; public Transform craft; public Transform craft1; public Transform craft2; public Transform craft3;
     public float move_speed = 30;
     public float rotation_speed = 100;
     public Transform enemy;
@@ -73,6 +73,12 @@ public class cistalenemy2 : MonoBehaviour
             player = c.collider.transform;
             povedenie = 5;
         }
+        if (c.collider.tag == "jk")
+        {
+            player = c.collider.transform;
+            craft3 = c.collider.transform;
+            povedenie = 5;
+        }
         if (c.collider.tag == "swamppig")
         {
             craft1 = c.collider.transform;
@@ -100,8 +106,8 @@ public class cistalenemy2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
+
+
         if (povedenie == 5 && player != null)
         {
             if (Vector3.Distance(player.position, enemy.position) < 6)
@@ -111,6 +117,21 @@ public class cistalenemy2 : MonoBehaviour
                 look_dir.y = 0;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
                 transform.position += transform.forward * move_speed * Time.deltaTime / 2;
+
+
+            }
+
+
+        }
+        if (craft3 != null)
+        {
+            if (Vector3.Distance(craft3.position, enemy.position) < 6)
+            {
+
+                var look_dir = craft3.position - transform.position;
+                look_dir.y = 0;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
+                transform.position += transform.forward * move_speed * Time.deltaTime *2;
 
 
             }

@@ -17,6 +17,7 @@ public class cistalenemy : MonoBehaviour
     public float move_speed = 10;
     public float rotation_speed = 100;
     public Transform enemy;
+    public bool isbig;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,42 +39,47 @@ public class cistalenemy : MonoBehaviour
     }
     private void OnCollisionStay(Collision c)
     {
-        if (c.collider.tag == "bomb" && ionenergy.energy == 1)
+        if (!isbig)
         {
-            Destroy(c.collider.gameObject);
-            Destroy(gameObject);
 
 
+            if (c.collider.tag == "bomb" && ionenergy.energy == 1)
+            {
+                Destroy(c.collider.gameObject);
+                Destroy(gameObject);
+
+
+            }
+            if (c.collider.tag == "bomb" && ionenergy.energy == 0)
+            {
+                Destroy(c.collider.gameObject);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Destroy(gameObject);
+            }
+            if (c.collider.tag == "item1")
+            {
+                Destroy(gameObject);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+            }
+            if (c.collider.tag == "box1")
+            {
+                Destroy(gameObject);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
+            }
         }
-        if (c.collider.tag == "bomb" && ionenergy.energy == 0)
-        {
-            Destroy(c.collider.gameObject);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-        if (c.collider.tag == "item1")
-        {
-            Destroy(gameObject);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-        }
-        if (c.collider.tag == "box1")
-        {
-            Destroy(gameObject);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-            Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-        }
-        if (c.collider.tag == "Player")
+            if (c.collider.tag == "Player")
         {
             VarSave.SetBool("cry", true);
             VarSave.SetBool("призедент победил", true); if (musave.player(c.collider.gameObject))
