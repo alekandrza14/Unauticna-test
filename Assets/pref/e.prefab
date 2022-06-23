@@ -58,6 +58,7 @@ MonoBehaviour:
   move_speed: 10
   rotation_speed: 100
   enemy: {fileID: 0}
+  isbig: 0
 --- !u!54 &8864109367156431329
 Rigidbody:
   m_ObjectHideFlags: 0

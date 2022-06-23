@@ -157,20 +157,30 @@ public class cistalenemy4 : MonoBehaviour
         }
         if (povedenie >= 4 && povedenie <= 7 && player != null)
         {
-            
 
-                var look_dir = player.position - transform.position;
-                look_dir.y = 0;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
-                transform.position += transform.right * move_speed * Time.deltaTime;
 
-                if (tic2 >= time2)
-                {
-                    Instantiate(Resources.Load("ztBullet"), transform.position, transform.rotation);
-                    
-                    tic2 = 0;
-                }
-            
+            var look_dir = player.position - transform.position;
+            look_dir.y = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look_dir), rotation_speed * Time.deltaTime);
+            transform.position += transform.right * move_speed * Time.deltaTime;
+
+            if (tic2 >= time2)
+            {
+                Instantiate(Resources.Load("ztBullet"), transform.position, transform.rotation);
+
+                tic2 = 0;
+            }
+
+
+
+        }
+        if (povedenie >= 6 && povedenie <= 7 && player != null)
+        {
+
+
+            Instantiate(Resources.Load<GameObject>("attaks/zt"), GameObject.FindGameObjectsWithTag("Player")[Random.Range(0, GameObject.FindGameObjectsWithTag("Player").Length)].transform.position, Quaternion.identity); 
+            Instantiate(Resources.Load<GameObject>("attaks/zt1"), GameObject.FindGameObjectsWithTag("Player")[Random.Range(0, GameObject.FindGameObjectsWithTag("Player").Length)].transform.position, Quaternion.identity);
+            player = musave.isplayer(); povedenie = 4;
 
 
         }

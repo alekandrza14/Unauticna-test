@@ -102,10 +102,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d864832ee2974b44ca4a93dd4c320064, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -215,6 +215,7 @@ MonoBehaviour:
   outsst: []
   outsv: []
   outsv3: []
+  outsg: []
 --- !u!1 &8666721449300989033
 GameObject:
   m_ObjectHideFlags: 0

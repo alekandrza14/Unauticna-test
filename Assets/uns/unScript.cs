@@ -26,6 +26,8 @@ public class unScript : MonoBehaviour
     public List<Vector2> outsv = new List<Vector2>();
     [HideInInspector]
     public List<Vector3> outsv3 = new List<Vector3>();
+    [HideInInspector]
+    public List<GameObject> outsg = new List<GameObject>();
     float tic;
     // Start is called before the first frame update
     void Start()
@@ -89,22 +91,51 @@ public class unScript : MonoBehaviour
     void Update()
     {
         tic += Time.deltaTime;
-        if (deathtime.Count !=0)
+        if (deathtime.Count != 0)
         {
-            if (tic > int.Parse(deathtime[0]))
+            if (tic > int.Parse(deathtime[0]) && pre4 != "s")
             {
                 for (int i = 0; i < 250; i++)
                 {
 
 
                     Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
-                    
+
                 }
-                
+
                 Destroy(gameObject);
             }
+
+
+            if (tic > int.Parse(deathtime[0]) && pre4 == "s")
+            {
+                if (pre3 == "s")
+                {
+                    outsg.Add(Instantiate(ins.gs[0], transform.position, Quaternion.identity));
+                }
+                for (int i = 0; i < outsg.Count; i++)
+                {
+                    for (int i2 = 0; i2 < ins.uns.Length; i2++)
+                    {
+
+
+                        outsg[i].AddComponent<unScript>().ins = ins.uns[i2];
+
+
+                    }
+
+                }
+                if (GetComponent<unScript>() || ins.uns.Length == 0)
+                {
+
+
+                    Destroy(gameObject);
+                }
+
+            }
         }
-            if (pre4 != "д")
+
+        if (pre4 != "д"&&pre4 != "s")
         {
             for (int x = 0; x < outs.Count; x++)
             {
@@ -189,7 +220,7 @@ public class unScript : MonoBehaviour
                 {
 
 
-                    gameObject.transform.position = new Vector3(Random.Range(0, 20), Random.Range(0, 20), Random.Range(0, 20));
+                    gameObject.transform.localScale = new Vector3(Random.Range(0, 20), Random.Range(0, 20), Random.Range(0, 20));
                     pre3 = "s";
                     x++;
                     Debug.LogWarning("setNotstabilesize задано");
@@ -213,6 +244,40 @@ public class unScript : MonoBehaviour
 
 
                     gameObject.AddComponent<forsebody>().script1 = this;
+                    Debug.LogWarning("перемещение задано");
+
+                }
+                if (outs[x] == "/bum/+")
+                {
+
+
+                    gameObject.AddComponent<tnt>().g = ins.gs[0];
+                    Debug.LogWarning("перемещение задано");
+
+                }
+                if (outs[x] == "/bum 1/+")
+                {
+
+
+                    gameObject.AddComponent<tnt>().g = ins.gs[1];
+                    Debug.LogWarning("перемещение задано");
+
+                }
+                if (outs[x] == "/bumact1/+")
+                {
+
+
+                    outsg.Add(Instantiate(ins.gs[0], transform.position, Quaternion.identity));
+                    pre4 = "s";
+                    Debug.LogWarning("перемещение задано");
+
+                }
+                if (outs[x] == "/bumact2/+")
+                {
+
+
+                    //outsg.Add(Instantiate(ins.gs[0], transform.position, Quaternion.identity));
+                    pre4 = "s"; pre3 = "s";
                     Debug.LogWarning("перемещение задано");
 
                 }

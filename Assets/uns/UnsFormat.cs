@@ -6,5 +6,7 @@ using UnityEngine;
 public class UnsFormat : ScriptableObject
 {
    [Multiline(200)]
-   public string script;
+    public string script;
+    public GameObject[] gs; 
+    public UnsFormat[] uns;
 }
