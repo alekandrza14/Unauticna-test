@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e35560e0d8e87f45b1b9701290b07ae, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  script: /bumact1/+/des 10/+
+  script: /bumact1/+/des 10/+%
   gs:
   - {fileID: 425056239306030591, guid: fa30981debc20214b9f87d41ccec99fc, type: 3}
   uns:

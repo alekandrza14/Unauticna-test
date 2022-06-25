@@ -49,6 +49,11 @@ public class unScript : MonoBehaviour
                 pre4 = "á";
 
             }
+            if (pre[i] == '%' && VarSave.EnterFloat("el"))
+            {
+                pre4 = "3";
+
+            }
             if (pre[i] == '\n' && pre3 == "1")
             {
                 pre3 = "1";
@@ -91,6 +96,10 @@ public class unScript : MonoBehaviour
     void Update()
     {
         tic += Time.deltaTime;
+        if (pre4 == "3")
+        {
+            Destroy(gameObject);
+        }
         if (deathtime.Count != 0)
         {
             if (tic > int.Parse(deathtime[0]) && pre4 != "s")
