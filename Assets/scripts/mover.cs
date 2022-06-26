@@ -70,6 +70,7 @@ public class mover : MonoBehaviour
     float vel;
     public bool tutorial;
     float tics;
+    bool fly; bool Xray;
     public GameObject[] mybody;
 
     void OnCollisionStay(Collision collision)
@@ -431,8 +432,91 @@ public class mover : MonoBehaviour
         }
 
     }
+    public void Creaive()
+    {
+        if (Directory.Exists("debug"))
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                fly = !fly;
+            }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                Xray = !Xray;
+                saveing();
+                if (!Xray)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
+            }
+            if (Xray)
+            {
+                for (int i = 0; i < GameObject.FindObjectsOfType<MeshRenderer>().Length; i++)
+                {
+                    GameObject.FindObjectsOfType<MeshRenderer>()[i].enabled = true;
+                    GameObject.FindObjectsOfType<MeshRenderer>()[i].material = Resources.Load<Material>("mats/xray");
+                    if (GameObject.FindObjectsOfType<MeshRenderer>()[i].gameObject.GetComponent<BoxCollider>())
+                    {
+                        if (GameObject.FindObjectsOfType<MeshRenderer>()[i].gameObject.GetComponent<BoxCollider>().isTrigger == true)
+                        {
+                            GameObject.FindObjectsOfType<MeshRenderer>()[i].material = Resources.Load<Material>("mats/xray3");
+                        }
+                    }
+                    }
+                for (int i = 0; i < GameObject.FindObjectsOfType<SkinnedMeshRenderer>().Length; i++)
+                {
+                    GameObject.FindObjectsOfType<SkinnedMeshRenderer>()[i].enabled = true;
+                    GameObject.FindObjectsOfType<SkinnedMeshRenderer>()[i].material = Resources.Load<Material>("mats/xray2");
+                }
+                
+            }
+            if (fly)
+            {
+                tjump = 0;
+                
+                if (Input.GetKey(KeyCode.W))
+                {
+
+                    anim.SetBool("swem", true);
+                    g1.velocity += g.transform.forward * 30;
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+
+                    anim.SetBool("swem", true);
+                    g1.velocity += -g.transform.forward * 30;
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+
+                    anim.SetBool("swem", true);
+                    g1.velocity += g.transform.right * 30;
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+
+                    anim.SetBool("swem", true);
+                    g1.velocity += -g.transform.right * 30;
+                }
+                if (Input.GetKey(KeyCode.Space))
+                {
+
+                    anim.SetBool("swem", true);
+                    g1.velocity += g.transform.up * 30;
+                }
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+
+                    anim.SetBool("swem", true);
+                    g1.velocity -= g.transform.up * 30;
+                }
+
+            }
+        }
+    }
     void Update()
     {
+        
         if (isplanet)
         {
             
@@ -986,7 +1070,7 @@ public class mover : MonoBehaviour
         {
             anim.SetBool("sit", false);
         }
-
+        Creaive();
     }
     public void saveing()
     {
