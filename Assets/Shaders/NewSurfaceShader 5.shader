@@ -1,4 +1,4 @@
-Shader "Custom/Fractal Shaider 2"
+Shader "Custom/Fractal Shaider 3"
 {
     Properties
     {
@@ -30,6 +30,7 @@ Shader "Custom/Fractal Shaider 2"
         {
             return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453123);
         }
+
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
@@ -45,16 +46,20 @@ Shader "Custom/Fractal Shaider 2"
         {
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D(_MainTex, IN.uv_MainTex * 1) * _Color * _XVector * 20;
-            for (int i=0;i< _XVector;i++)
+            for (int i = 0; i < _XVector; i++)
             {
 
-                c *= i +1;
-                
-                
-                
-                c *= tex2D(_MainTex, IN.uv_MainTex -i *.1+ IN.uv_MainTex *i) * _Color;
-                
-                
+                c *= i + 1;
+                c *= tex2D(_MainTex, IN.uv_MainTex * 2 * i) * _Color;
+
+            }
+            for (int i = 0; i < _XVector; i++)
+            {
+
+                c *= i + 1;
+                c *= tex2D(_MainTex, random(IN.uv_MainTex * 2 * i)) * _Color;
+
+
             }
             
             o.Albedo = c.rgb;

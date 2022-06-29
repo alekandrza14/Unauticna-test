@@ -1,4 +1,4 @@
-Shader "Custom/Fractal Shaider 2"
+Shader "Custom/Fractal Shaider 4"
 {
     Properties
     {
@@ -26,10 +26,7 @@ Shader "Custom/Fractal Shaider 2"
         {
             float2 uv_MainTex;
         };
-        float random(float2 uv)
-        {
-            return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453123);
-        }
+
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
@@ -49,18 +46,14 @@ Shader "Custom/Fractal Shaider 2"
             {
 
                 c *= i +1;
-                
-                
-                
-                c *= tex2D(_MainTex, IN.uv_MainTex -i *.1+ IN.uv_MainTex *i) * _Color;
-                
+                c *= tex2D(_MainTex, IN.uv_MainTex * 1 / i *2) * _Color;
                 
             }
             
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic * random(IN.uv_MainTex);
-            o.Smoothness = _Glossiness * random(IN.uv_MainTex);
+            o.Metallic = _Metallic;
+            o.Smoothness = _Glossiness;
             o.Alpha = c.a;
         }
         ENDCG
