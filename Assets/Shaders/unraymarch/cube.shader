@@ -7,7 +7,7 @@ Shader "Unlit/cube"
     }
     SubShader
     {
-        Tags { "Queue" = "AlphaTest" }
+        Tags { "Queue" = "Transparent" }
 ZWrite off
             Cull off
         LOD 100
@@ -95,7 +95,12 @@ ZWrite off
                 }
                 else discard;
                 
-                col = lerp(col, tex, 1);
+                if (tex.a != 0) {
+
+
+                    col = lerp(col, tex, 1);
+                }
+                else discard;
                 return col;
             }
             ENDCG

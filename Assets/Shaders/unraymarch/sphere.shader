@@ -5,10 +5,11 @@ Shader "Unlit/sphere"
         _MainTex("Texture", 2D) = "white" {}
         _MainColor("Color", Color) = (1,1,1,1)
         _XColor("*", range(1,10)) = 1
+        _XVector("*vector", range(0,10)) = 1
     }
     SubShader
     {
-        Tags { "Queue" = "AlphaTest" }
+        Tags { "Queue" = "Transparent" }
 ZWrite off
             Cull off
         LOD 100
@@ -42,6 +43,7 @@ ZWrite off
             fixed4 _MainColor;
             float4 _MainTex_ST; 
             float _XColor;
+            float _XVector;
 
             v2f vert (appdata v)
             {
@@ -87,7 +89,7 @@ ZWrite off
                 float d = Raymarch(ro, rd);
                 fixed4 col = 0;
                 float3 p = ro + rd * d;
-                fixed4 tex = tex2D(_MainTex, GetNormal(p).rg+0.5);
+                fixed4 tex = tex2D(_MainTex, GetNormal(p).rg+0.5*_XVector);
                 float m = dot(uv,uv);
                 tex *= _MainColor;
                 if (d < MAX_DIST) {
@@ -97,7 +99,12 @@ ZWrite off
                 }
                 else discard;
                 
-                col = lerp(col, tex, 1);
+                if (tex.a != 0) {
+
+
+                    col = lerp(col, tex, 1);
+                }
+                else discard;
                 return col * _XColor;
             }
             ENDCG
