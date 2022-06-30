@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 5501837821871606227}
   - component: {fileID: 2981439388143660811}
   m_Layer: 0
-  m_Name: "\u0441\u0430\u043C\u0430\u044F \u043E\u0431\u044B\u0447\u043D\u0430\u044F
-    \u043A\u043E\u043D\u0446\u043E\u0432\u043A\u0430"
+  m_Name: "\u0441\u0430\u043C\u0430\u044F_\u043E\u0431\u044B\u0447\u043D\u0430\u044F_\u043A\u043E\u043D\u0446\u043E\u0432\u043A\u0430"
   m_TagString: 1end
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -52,8 +52,7 @@ MonoBehaviour:
   tevro: {fileID: 483664860899555389}
   tevroint: 0
   produkt:
-  - name: "\u0441\u0430\u043C\u0430\u044F \u043E\u0431\u044B\u0447\u043D\u0430\u044F
-      \u043A\u043E\u043D\u0446\u043E\u0432\u043A\u0430"
+  - name: "\u0441\u0430\u043C\u0430\u044F_\u043E\u0431\u044B\u0447\u043D\u0430\u044F_\u043A\u043E\u043D\u0446\u043E\u0432\u043A\u0430"
     Give_or_Minus: 0
     count: 1
     price: 200
