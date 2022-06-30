@@ -31,6 +31,10 @@ public class Shop : MonoBehaviour
             {
                 number[i].color = Color.white;
             }
+            if (!VarSave.EnterFloat(produkt[i].us) && produkt[i].us != "")
+            {
+                number[i].color = Color.gray;
+            }
         }
         for (int i = 0; i < produkt.Length && adecvat; i++)
         {
@@ -43,6 +47,11 @@ public class Shop : MonoBehaviour
             {
                 number[i].color = Color.white;
             }
+            if (!VarSave.EnterFloat(produkt[i].us) && produkt[i].us != "")
+            {
+                number[i].color = Color.gray;
+            }
+
         }
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
         {
@@ -51,27 +60,30 @@ public class Shop : MonoBehaviour
     }
     public void sell(int product)
     {
-        if (produkt[product].Give_or_Minus == false && tevroint >= produkt[product].price)
+        if (VarSave.EnterFloat(produkt[product].us) && produkt[product].us == "")
         {
-            for (int i = 0; i < produkt[product].count; i++)
+            if (produkt[product].Give_or_Minus == false && tevroint >= produkt[product].price)
             {
-                Instantiate(Resources.Load<GameObject>("items/" + produkt[product].name), musave.GetPlayer().transform.position, Quaternion.identity);
+                for (int i = 0; i < produkt[product].count; i++)
+                {
+                    Instantiate(Resources.Load<GameObject>("items/" + produkt[product].name), musave.GetPlayer().transform.position, Quaternion.identity);
+                }
+                tevroint -= produkt[product].price;
+                VarSave.SetInt("tevro", tevroint);
             }
-            tevroint -= produkt[product].price;
-            VarSave.SetInt("tevro",tevroint);
-        }
-        if (produkt[product].Give_or_Minus == true)
-        {
-            
-            for (int i = 0; i< produkt[product].count && GameObject.FindGameObjectWithTag(inv).GetComponent<ElementalInventory>().Getitem(produkt[product].name); i++)
+            if (produkt[product].Give_or_Minus == true)
             {
 
-                tevroint += produkt[product].price;
-                VarSave.SetInt("tevro", tevroint);
-                GameObject.FindGameObjectWithTag(inv).GetComponent<ElementalInventory>().removeitem(produkt[product].name);
-                
+                for (int i = 0; i < produkt[product].count && GameObject.FindGameObjectWithTag(inv).GetComponent<ElementalInventory>().Getitem(produkt[product].name); i++)
+                {
+
+                    tevroint += produkt[product].price;
+                    VarSave.SetInt("tevro", tevroint);
+                    GameObject.FindGameObjectWithTag(inv).GetComponent<ElementalInventory>().removeitem(produkt[product].name);
+
+                }
+
             }
-            
         }
     }
 }
@@ -82,5 +94,6 @@ public class produktid
     public bool Give_or_Minus;
     public int count; 
     public int price = 0;
+    public string us;
     
 }
