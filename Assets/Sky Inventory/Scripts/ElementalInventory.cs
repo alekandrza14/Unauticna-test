@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 public class inputButton
 {
 	static public int button;
@@ -18,6 +20,7 @@ public class ElementalInventory : MonoBehaviour {
 	public int select = 3;
 	public string[] itemtags;
 	public string[] itemnames;
+	public string[] nunames;
 	private Transform choosenItem;
 	public bool planets;
 	public bool deletecell;
@@ -28,9 +31,21 @@ public class ElementalInventory : MonoBehaviour {
     {
 		getallitems();
     }
-    public void getallitems()
+	public void getallitemsroom()
+	{
+		GameObject[] g = Resources.LoadAll<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex);
+		nunames = new string[g.Length];
+		for (int i = 0; i < nunames.Length; i++)
+		{
+			nunames[i] = g[i].name;
+
+		}
+	}
+	
+
+	public void getallitems()
     {
-		
+		getallitemsroom();
 		 GameObject[] g = Resources.LoadAll<GameObject>("items");
 		itemnames = new string[g.Length]; 
 		itemtags = new string[g.Length];
@@ -43,9 +58,26 @@ public class ElementalInventory : MonoBehaviour {
 	}
 	public GameObject inv2(string name)
 	{
-		GameObject g1 = Resources.Load<GameObject>("items/" + name);
+		GameObject g1 = GameObject.FindObjectsOfType<GameObject>()[0];
+		for (int i = 0; i < nunames.Length; i++)
+		{
+			if (nunames[i] != name)
+			{
 
-		return g1;
+
+				g1 = Resources.Load<GameObject>("items/" + name);
+				i = nunames.Length;
+			}
+			if (nunames[i] == name)
+			{
+
+
+				g1 = Resources.Load<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex +"/" +name);
+				i = nunames.Length;
+			}
+		}
+
+       return g1;
 	}
 	public string toname(string name)
 	{

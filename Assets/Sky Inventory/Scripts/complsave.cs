@@ -22,7 +22,7 @@ public class complsave : MonoBehaviour
 
 
 
-
+    public string[] nunames;
 
 
     public string[] info3;
@@ -69,10 +69,37 @@ public class complsave : MonoBehaviour
         File.Delete(name2.ToString() + @"/scene_" + SceneManager.GetActiveScene().name);
         
     }
-
-    public void getallitems()
+    public void getallitemsroom()
     {
+        GameObject[] g = Resources.LoadAll<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex);
+        nunames = new string[g.Length];
+        for (int i = 0; i < nunames.Length; i++)
+        {
+            nunames[i] = g[i].name;
 
+        }
+        for (int i2 = 0; i2 < nunames.Length; i2++)
+        {
+            for (int i = 0; i < t3.Length; i++)
+            {
+                if (nunames[i2] != t3[i].name)
+                {
+
+                }
+                if (nunames[i2] == t3[i].name)
+                {
+                    t3[i] = g[i2];
+                    i2 = nunames.Length;
+                        i = t3.Length;
+                }
+
+            }
+        }
+        }
+
+        public void getallitems()
+    {
+        
         GameObject[] g = Resources.LoadAll<GameObject>("items");
         t3 = new GameObject[g.Length];
         info3 = new string[g.Length];
@@ -82,6 +109,7 @@ public class complsave : MonoBehaviour
             info3[i] = g[i].tag;
 
         }
+        getallitemsroom();
     }
 
 
