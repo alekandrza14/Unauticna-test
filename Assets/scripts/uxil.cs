@@ -19,7 +19,7 @@ public class uxil : MonoBehaviour
     
     private void OnCollisionEnter(Collision col)
     {
-        if (col.collider.tag == "Player")
+        if (col.collider.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("cry", true);
             VarSave.SetBool("прникаснултя к 2006 елеменнту", true);

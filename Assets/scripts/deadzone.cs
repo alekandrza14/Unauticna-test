@@ -18,7 +18,7 @@ public class deadzone : MonoBehaviour
     }
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("отравлен и от правлен в больницу", true); 
             VarSave.SetBool("cry", true);

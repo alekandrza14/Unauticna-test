@@ -20,7 +20,16 @@ public class save
 {
     public string idsave;
     public Vector3 pos, pos2;
+
+    public Quaternion q1, q2, q3;
+    public Vector3 velosyty; public Vector3 angularvelosyty;
+    public float vive;
+}
+public class tsave
+{
     
+    public Vector3 pos, pos2;
+
     public Quaternion q1, q2, q3;
     public Vector3 velosyty; public Vector3 angularvelosyty;
     public float vive;
@@ -43,7 +52,8 @@ public class mover : MonoBehaviour
     public GameObject g2;
     public Rigidbody g1;
     public float sm;
-    public save save = new save();
+    public save save = new save(); 
+    public tsave tsave = new tsave();
     public gsave gsave = new gsave();
     public InputField ifd;
     public float tjump;
@@ -312,6 +322,7 @@ public class mover : MonoBehaviour
                         g.transform.position = save.pos;
                         sr.transform.position = save.pos2;
                     }
+                    
                     g.transform.rotation = save.q1;
                     sr.transform.rotation = save.q3;
                     g2.transform.rotation = save.q2;
@@ -355,9 +366,26 @@ public class mover : MonoBehaviour
     }
     public void load()
     {
-        
+
+
+        if (Input.GetKey(KeyCode.G))
+        {
+            DirectoryInfo di = new DirectoryInfo("unsave/capter-" + SceneManager.GetActiveScene().buildIndex);
+            if (File.Exists("unsave/capter-" + SceneManager.GetActiveScene().buildIndex + "/" + ifd.text + "-" + (di.GetFiles().Length -1)))
+            {
+                tsave = JsonUtility.FromJson<tsave>(File.ReadAllText("unsave/capter-" + SceneManager.GetActiveScene().buildIndex + "/" + ifd.text + "-" + (di.GetFiles().Length - 1)));
+                g1.angularVelocity = tsave.angularvelosyty;
+                g1.velocity = tsave.velosyty;
+                g.transform.position = tsave.pos; g2.transform.position = tsave.pos2;
+                sr.transform.position = tsave.pos2;
+                g.transform.rotation = tsave.q1;
+                sr.transform.rotation = tsave.q3;
+                g2.transform.rotation = tsave.q2;
+                Camera.main.fieldOfView = tsave.vive;
+                File.Delete("unsave/capter-" + SceneManager.GetActiveScene().buildIndex + "/" + ifd.text + "-" + (di.GetFiles().Length - 1));
+            }
             
-        
+        }
         if (!tutorial)
         {
             if (Input.GetKey(KeyCode.F2))
@@ -748,7 +776,7 @@ public class mover : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
             }
         }
-        if (!issweming && !Input.GetKey(KeyCode.F) && del == null && !Input.GetKey(KeyCode.LeftShift))
+        if (!issweming && !Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G) && del == null && !Input.GetKey(KeyCode.LeftShift))
         {
 
             RenderSettings.fogStartDistance = fog;
@@ -809,7 +837,7 @@ public class mover : MonoBehaviour
         {
             anim.SetBool("fall", false);
         }
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G))
         {
             g1.useGravity = false;
         }
@@ -820,7 +848,7 @@ public class mover : MonoBehaviour
 
             isthirdperson = !isthirdperson;
         }
-        if (!Input.GetKey(KeyCode.F))
+        if (!Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G))
         {
             tics += Time.deltaTime;
             g1.useGravity = true;
@@ -835,7 +863,7 @@ public class mover : MonoBehaviour
             }
         }
 
-        if (issweming && !Input.GetKey(KeyCode.F) && del != null && !Input.GetKey(KeyCode.LeftShift))
+        if (issweming && !Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G) && del != null && !Input.GetKey(KeyCode.LeftShift))
         {
             if (!del.stopPlayer)
             {
@@ -870,7 +898,7 @@ public class mover : MonoBehaviour
                 }
             }
         }
-        if (!issweming && !Input.GetKey(KeyCode.F) && del != null && !Input.GetKey(KeyCode.LeftShift))
+        if (!issweming && !Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G) && del != null && !Input.GetKey(KeyCode.LeftShift))
         {
             if (!del.stopPlayer)
             {
@@ -906,7 +934,7 @@ public class mover : MonoBehaviour
                 }
             }
         }
-        if (issweming && !Input.GetKey(KeyCode.F) && del == null && !Input.GetKey(KeyCode.LeftShift))
+        if (issweming && !Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G) && del == null && !Input.GetKey(KeyCode.LeftShift))
         {
 
 
@@ -1005,7 +1033,8 @@ public class mover : MonoBehaviour
             WorldSave.SetVector3("var1");
 
         }
-        load(); if (c == null && !issweming && !Input.GetKey(KeyCode.F))
+        load();
+        if (c == null && !issweming && !Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G))
         {
             tjump -= Time.deltaTime * gr;
 
@@ -1039,7 +1068,7 @@ public class mover : MonoBehaviour
         {
             igr = true;
         }
-        if (igr && !issweming && !Input.GetKey(KeyCode.F) && s2)
+        if (igr && !issweming && !Input.GetKey(KeyCode.F) && !Input.GetKey(KeyCode.G) && s2)
         {
             g1.velocity += transform.up * jump * tjump;
         }
@@ -1071,6 +1100,7 @@ public class mover : MonoBehaviour
             anim.SetBool("sit", false);
         }
         Creaive();
+        timesaveing();
     }
     public void saveing()
     {
@@ -1124,6 +1154,13 @@ public class mover : MonoBehaviour
             save.q2 = g2.transform.rotation;
             save.pos = g.transform.position;
             save.vive = Camera.main.fieldOfView;
+            tsave.angularvelosyty = g1.angularVelocity;
+            tsave.velosyty = g1.velocity;
+            tsave.q1 = g.transform.rotation;
+            tsave.q2 = g2.transform.rotation;
+            tsave.pos = g.transform.position;
+            tsave.vive = Camera.main.fieldOfView;
+            timesaveing();
             gsave.hp = hp;
             gsave.oxygen = oxygen;
             gsave.tp = isthirdperson;
@@ -1139,6 +1176,34 @@ public class mover : MonoBehaviour
             WorldSave.SetVector3("var1");
         }
     }
+    public void timesaveing()
+    {
+
+
+
+        if (!tutorial && !Input.GetKey(KeyCode.G))
+        {
+
+
+            Directory.CreateDirectory("unsave/capter-" + SceneManager.GetActiveScene().buildIndex);
+            tsave.angularvelosyty = g1.angularVelocity;
+            tsave.velosyty = g1.velocity;
+            tsave.q1 = g.transform.rotation;
+            tsave.q2 = g2.transform.rotation;
+            tsave.pos = g.transform.position;
+            tsave.pos2 = g2.transform.position;
+            tsave.vive = Camera.main.fieldOfView;
+
+            save.idsave = ifd.text;
+            DirectoryInfo di = new DirectoryInfo("unsave/capter-" + SceneManager.GetActiveScene().buildIndex);
+            File.WriteAllText("unsave/capter-" + SceneManager.GetActiveScene().buildIndex + "/" + ifd.text + "-" + di.GetFiles().Length, JsonUtility.ToJson(tsave));
+
+
+
+        }
+
+    }
+    
     public void deleteing()
     {
 

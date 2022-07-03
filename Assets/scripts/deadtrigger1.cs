@@ -26,7 +26,7 @@ public class deadtrigger1 : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && !stop)
+        if (other.tag == "Player" && !stop && !Input.GetKey(KeyCode.G))
         {
             anim.SetBool("New Bool", true);
             
@@ -34,7 +34,7 @@ public class deadtrigger1 : MonoBehaviour
     }
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Player")
+        if (collision.collider.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("cry", true);
             VarSave.SetBool("подездный маг победил", true);

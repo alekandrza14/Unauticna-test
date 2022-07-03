@@ -133,7 +133,7 @@ public class terracat : MonoBehaviour
             Destroy(gameObject);
 
         }
-        if (c.collider.tag == "Player")
+        if (c.collider.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("умерли от ран", true);
             VarSave.SetBool("cry", true);

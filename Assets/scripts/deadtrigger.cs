@@ -20,7 +20,7 @@ public class deadtrigger : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("cry", true); if (!chervyash && !terratist)
             {

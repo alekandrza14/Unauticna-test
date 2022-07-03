@@ -57,7 +57,7 @@ public class cistalenemy1 : MonoBehaviour
             Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
             Instantiate(Resources.Load<GameObject>("deathparticles"), gameObject.transform.position, Quaternion.identity);
         }
-        if (c.collider.tag == "Player")
+        if (c.collider.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("cry", true);
             VarSave.SetBool("„≈–¬яЎ победил", true);
