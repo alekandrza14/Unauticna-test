@@ -13,9 +13,23 @@ public class saveobj6d
     public Vector3 modulyogir;
 }
 
+public class WorldSave1
+{
+    public Vector4[] v4;
+    public Vector4[] sv3;
+    public string[] mats;
+    public Vector4 pv4;
+    public Quaternion w, w2, w3, i, i2;
+}
+
 public class WorldSave : MonoBehaviour
 {
-    public static string path = "world";
+        public Vector4[] v4;
+        public Vector4[] sv3;
+        public string[] mats;
+        public Vector4 pv4;
+        public Quaternion w, w2, w3, i, i2;
+        public static string path = "world";
     public static void DeleteAll()
     {
         Directory.Delete(path,true);

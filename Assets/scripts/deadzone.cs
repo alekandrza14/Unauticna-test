@@ -18,15 +18,16 @@ public class deadzone : MonoBehaviour
     }
     public void OnTriggerExit(Collider other)
     {
+        
         if (other.tag == "Player" && !Input.GetKey(KeyCode.G))
         {
             VarSave.SetBool("отравлен и от правлен в больницу", true); 
             VarSave.SetBool("cry", true);
-
+            Uxill_Engine.kill();
             if (musave.player(other.gameObject))
             {
 
-
+                
                 musave.chargescene(SceneManager.GetActiveScene().buildIndex);
             }
         }

@@ -76,6 +76,10 @@ public class ElementalInventory : MonoBehaviour {
 				i = nunames.Length;
 			}
 		}
+        if (nunames.Length == 0)
+        {
+			g1 = Resources.Load<GameObject>("items/" + name);
+		}
 
        return g1;
 	}
