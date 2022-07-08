@@ -61,22 +61,41 @@ public class ElementalInventory : MonoBehaviour {
 		GameObject g1 = GameObject.FindObjectsOfType<GameObject>()[0];
 		for (int i = 0; i < nunames.Length; i++)
 		{
-			if (nunames[i] != name)
+			if (i < nunames.Length)
 			{
 
 
-				g1 = Resources.Load<GameObject>("items/" + name);
-				i = nunames.Length;
+				if (nunames[i] != name)
+				{
+
+
+					g1 = Resources.Load<GameObject>("items/" + name);
+					i = nunames.Length;
+				}
 			}
-			if (nunames[i] == name)
+			if (i < nunames.Length)
 			{
+				if (nunames[i] == name && Resources.GetBuiltinResource<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex + "/" + name))
+				{
 
 
-				g1 = Resources.Load<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex +"/" +name);
-				i = nunames.Length;
+					g1 = Resources.Load<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex + "/" + name);
+					i = nunames.Length;
+				}
 			}
+			if (i < nunames.Length)
+			{
+				if (!Resources.GetBuiltinResource<GameObject>("itms/room" + SceneManager.GetActiveScene().buildIndex + "/" + name))
+				{
+
+
+					g1 = Resources.Load<GameObject>("items/" + name);
+					i = nunames.Length;
+				}
+			}
+
 		}
-        if (nunames.Length == 0)
+            if (nunames.Length == 0)
         {
 			g1 = Resources.Load<GameObject>("items/" + name);
 		}
