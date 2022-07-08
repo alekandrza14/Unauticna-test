@@ -1181,7 +1181,7 @@ public class mover : MonoBehaviour
 
 
 
-        if (!tutorial && !Input.GetKey(KeyCode.G))
+        if (!tutorial && !Input.GetKey(KeyCode.G) && Random.Range(0,3) ==2)
         {
 
 

@@ -107,8 +107,8 @@ loadpref1.gameObject};
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                Uxill_Engine.Transform4DRotate(target, Vector3.zero, new Vector3(0, Input.GetAxis("Mouse X"), 0) * 120 * Time.deltaTime);
-                Uxill_Engine.Transform4DRotate(target, Vector3.zero, new Vector3(-Input.GetAxis("Mouse Y"), 0, 0) * 120 * Time.deltaTime);
+                Uxill_Engine.Transform4DRotate(target, Vector3.zero, new Vector3(0, Input.GetAxis("Mouse X"), 0) * 1.5f);
+                Uxill_Engine.Transform4DRotate(target, Vector3.zero, new Vector3(-Input.GetAxis("Mouse Y"), 0, 0) * 1.5f);
             }
             else if (!Input.GetKey(KeyCode.Mouse1) && !Input.GetKey(KeyCode.Mouse0))
             {
@@ -117,8 +117,8 @@ loadpref1.gameObject};
             if (Input.GetKey(KeyCode.Mouse1))
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                Uxill_Engine.Transform4DRotate(target, new Vector3(0, Input.GetAxis("Mouse X"), 0) * 120 * Time.deltaTime, Vector3.zero);
-                Uxill_Engine.Transform4DRotate(target, new Vector3(-Input.GetAxis("Mouse Y"), 0, 0) * 120 * Time.deltaTime, Vector3.zero);
+                Uxill_Engine.Transform4DRotate(target, new Vector3(0, Input.GetAxis("Mouse X"), 0) * 1.5f, Vector3.zero);
+                Uxill_Engine.Transform4DRotate(target, new Vector3(-Input.GetAxis("Mouse Y"), 0, 0) * 1.5f, Vector3.zero);
             }
             else if (!Input.GetKey(KeyCode.Mouse1) && !Input.GetKey(KeyCode.Mouse0))
             {

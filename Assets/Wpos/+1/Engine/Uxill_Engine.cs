@@ -45,7 +45,7 @@ public class Uxill_Engine
    static public Quaternion camera4d;
    
    static public int speed;
-   static public int ots = 1000;
+   static public int ots = 10000;
    static public int ots2 = 3;
    static public Vector2Int size = new Vector2Int(200,200);
    static public List<GameObject> pref4d8 = new List<GameObject>();
@@ -95,7 +95,16 @@ public class Uxill_Engine
             ws = JsonUtility.FromJson<WorldSave1>(File.ReadAllText(WorldData.path + SceneManager.GetActiveScene().buildIndex + "/worlddata.wd"));
             transform.posistion = ws.pv4;
             
-            Transform4DSetRotation(transform, ws.w, ws.i, ws.w2,ws.i2);
+            Transform4DSetRotation(transform, ws.w, ws.i);
+            for (int i = 0; i < GameObject.FindObjectsOfType<Cube>().Length; i++)
+            {
+                if (GameObject.FindObjectsOfType<Cube>().Length != 0)
+                {
+
+
+                    GameObject.FindObjectsOfType<Cube>()[i].gameObject.AddComponent<DELETE>();
+                }
+            }
             for (int i = 0; i < GameObject.FindObjectsOfType<Position4>().Length; i++)
             {
                 if (GameObject.FindObjectsOfType<Position4>().Length != 0)
@@ -110,16 +119,9 @@ public class Uxill_Engine
                 load[i].GetComponent<Position4>().mat = ws.mats[i];
                 load[i].GetComponent<Position4>().w = ws.v4[i].w;
                 load[i].GetComponent<Position4>().transform.localScale = ws.sv3[i];
+                load[i].GetComponent<Position4>().transform.rotation = ws.qs4[i];
             }
-            for (int i = 0; i < GameObject.FindObjectsOfType<Cube>().Length; i++)
-            {
-                if (GameObject.FindObjectsOfType<Cube>().Length != 0)
-                {
-
-
-                    GameObject.FindObjectsOfType<Cube>()[i].gameObject.AddComponent<DELETE>();
-                }
-            }
+            
                 kill();
             Start(transform,gs);
 
@@ -133,12 +135,18 @@ public class Uxill_Engine
             Enginemanager e = GameObject.FindObjectsOfType<Enginemanager>()[0];
             ws = new WorldSave1();
             ws = JsonUtility.FromJson<WorldSave1>(File.ReadAllText(WorldData.path + SceneManager.GetActiveScene().buildIndex + "/worlddata.wd"));
-            
+
             if (ws.v4.Length != 0)
             {
                 transform.posistion = ws.pv4;
 
-
+                for (int i = 0; i < GameObject.FindObjectsOfType<Cube>().Length; i++)
+                {
+                    if (GameObject.FindObjectsOfType<Cube>().Length != 0)
+                    {
+                        GameObject.FindObjectsOfType<Cube>()[i].gameObject.AddComponent<DELETE>();
+                    }
+                }
 
                 for (int i = 0; i < GameObject.FindObjectsOfType<Position4>().Length; i++)
                 {
@@ -146,28 +154,25 @@ public class Uxill_Engine
                     {
                         GameObject.FindObjectsOfType<Position4>()[i].gameObject.AddComponent<DELETE>();
                     }
-                    }
-                    for (int i = 0; i < ws.mats.Length; i++)
+                }
+                for (int i = 0; i < ws.mats.Length; i++)
                 {
 
                     load.Add(e.create(gs[4], new Vector3(ws.v4[i].x, ws.v4[i].y, ws.v4[i].z), Quaternion.identity));
                     load[i].GetComponent<Position4>().mat = ws.mats[i];
                     load[i].GetComponent<Position4>().w = ws.v4[i].w;
                     load[i].GetComponent<Position4>().transform.localScale = ws.sv3[i];
+                    load[i].GetComponent<Position4>().transform.rotation = ws.qs4[i];
                 }
-                for (int i = 0; i < GameObject.FindObjectsOfType<Cube>().Length; i++)
-                {
-                    if (GameObject.FindObjectsOfType<Cube>().Length != 0)
-                    {
-                        GameObject.FindObjectsOfType<Cube>()[i].gameObject.AddComponent<DELETE>();
-                    }
-                    }
-                    kill();
+                
+               
                 loadend = true;
             }
-            
+            kill();
+            Start(transform, gs);
+
         }
-            
+
 
     }
     static public void Save(transform4d transform)
@@ -186,6 +191,7 @@ public class Uxill_Engine
             ws.mats = new string[GameObject.FindObjectsOfType<Position4>().Length];
             ws.sv3 = new Vector4[GameObject.FindObjectsOfType<Position4>().Length];
             ws.v4 = new Vector4[GameObject.FindObjectsOfType<Position4>().Length];
+            ws.qs4 = new Quaternion[GameObject.FindObjectsOfType<Position4>().Length];
             for (int i = 0; i < GameObject.FindObjectsOfType<Position4>().Length; i++)
             {
                 Vector3 v3s = GameObject.FindObjectsOfType<Position4>()[i].transform.position;
@@ -194,6 +200,7 @@ public class Uxill_Engine
 
                 ws.mats[i] = GameObject.FindObjectsOfType<Position4>()[i].mat;
                 ws.sv3[i] = GameObject.FindObjectsOfType<Position4>()[i].transform.localScale;
+                ws.qs4[i] = GameObject.FindObjectsOfType<Position4>()[i].transform.rotation;
 
 
 
@@ -301,15 +308,16 @@ public class Uxill_Engine
                 Material m = pref4d8[i].GetComponent<MeshRenderer>().material;
                 m.SetTexture("_MainTex", d3s[i]);
 
+
             }
             
             for (int i = 0; i < pref4d18.Count && pref4d38.Count != 0; i++)
             {
 
 
+            pref4d18[i].GetComponentInChildren<Camera>().targetTexture = d3s[i];
 
-                pref4d18[i].GetComponentInChildren<Camera>().targetTexture = d3s[i];
-                if (getwposcamera(Mathf.FloorToInt(pos.w)).w == p4[i])
+            if (getwposcamera(Mathf.FloorToInt(pos.w)).w == p4[i])
                 {
                     float d4s = ots * p4[i] + pos.w;
 
@@ -409,10 +417,9 @@ public class Uxill_Engine
             pref4d38[0].transform.rotation = pref4d18[0].transform.rotation;
         }
     }
-    static public void Transform4DSetRotation(transform4d transform, Quaternion _x_y_z_w, Quaternion _wx_wy_wz_ww, Quaternion _x2_y2_z2_w2, Quaternion _wx2_wy2_wz2_ww2)
+    static public void Transform4DSetRotation(transform4d transform, Quaternion _x_y_z_w, Quaternion _wx_wy_wz_ww)
     {
         transform.w = _wx_wy_wz_ww;
-        transform.w3 = _wx2_wy2_wz2_ww2;
         for (int i = 0; i < pref4d8.Count; i++)
         {
 
@@ -420,10 +427,8 @@ public class Uxill_Engine
 
 
             pref4d18[i].transform.rotation = _x_y_z_w;
-            pref4d18[i].transform.GetChild(0).rotation = _x2_y2_z2_w2;
-            pref4d18[i].transform.GetChild(1).rotation = _x2_y2_z2_w2;
-            transform.i = _x_y_z_w;
-            transform.w2 = _x2_y2_z2_w2;
+            pref4d18[i].transform.GetChild(0).rotation = _x_y_z_w;
+            pref4d18[i].transform.GetChild(1).rotation = _x_y_z_w;
 
         }
     }
@@ -440,9 +445,10 @@ public class Uxill_Engine
             float d4s2 = ots2 * p4[i2] - transform.posistion.w;
 
             pref4d8[i2].transform.position = new Vector3(0, 0, d4s2);
+
             pref4d18[i2].transform.position = new Vector3(transform.posistion.x, transform.posistion.y, transform.posistion.z);
             pref4d18[i2].transform.position += new Vector3(0, 0, d4s);
-
+            pref4d18[i2].GetComponentInChildren<Camera>().targetTexture = d3s[i2];
 
 
 
@@ -460,7 +466,8 @@ public class Uxill_Engine
         }
         for (int i3 = 0; i3 < p4.Count; i3++)
         {
-
+            Material m = pref4d8[i3].GetComponent<MeshRenderer>().material;
+            m.SetTexture("_MainTex", d3s[i3]);
 
             if (getwposcamera(Mathf.FloorToInt(transform.posistion.w)).w == p4[i3] && pref4d38.Count !=0)
             {

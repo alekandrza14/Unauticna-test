@@ -20,6 +20,7 @@ public class WorldSave1
     public string[] mats;
     public Vector4 pv4;
     public Quaternion w, w2, w3, i, i2;
+    public Quaternion[] qs4;
 }
 
 public class WorldSave : MonoBehaviour
