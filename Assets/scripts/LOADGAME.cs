@@ -72,8 +72,11 @@ public class LOADGAME : MonoBehaviour
     }
     public void LOAD()
     {
-
-        if (!File.Exists("unsave/capterg/" + ifd.text))
+        if (ifd.text == "022564")
+        {
+            SceneManager.LoadScene(43);
+        }
+        if (!File.Exists("unsave/capterg/" + ifd.text) && ifd.text != "022564")
         {
             string s = "";
             s = ifd.text;
@@ -81,7 +84,7 @@ public class LOADGAME : MonoBehaviour
             SceneManager.LoadScene(1);
 
         }
-        if (File.Exists("unsave/capterg/" + ifd.text))
+        if (File.Exists("unsave/capterg/" + ifd.text) && ifd.text != "022564")
         {
             gsave = JsonUtility.FromJson<gsave>(File.ReadAllText("unsave/capterg/" + ifd.text));
             string s = "";
