@@ -11,8 +11,8 @@ public class RayMarchingShape : MonoBehaviour
     TORUS,
     FLOOR_PLANE,
     BACKGROUND_PLANE,
-    // TODO: Add more shapes
-  }
+    FRACTALL,// TODO: Add more shapes
+    }
 
   enum BlendType
   {
