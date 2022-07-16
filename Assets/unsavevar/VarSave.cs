@@ -6,6 +6,7 @@ using UnityEngine;
 public class VarSave
 {
     public static string path = "unsave/var";
+    public static string path2 = Application.persistentDataPath;
     public static void DeleteAll()
     {
         Directory.Delete(path, true);
@@ -73,6 +74,20 @@ public class VarSave
         }
         return varout;
     }
+    public static void SetFloat2(string key, float var)
+    {
+        Directory.CreateDirectory(path2);
+        File.WriteAllText(path2 + "/" + key, var.ToString());
+    }
+    public static float GetFloat2(string key)
+    {
+        float varout = 0.0f;
+        if (File.Exists(path2 + "/" + key))
+        {
+            varout = float.Parse(File.ReadAllText(path2 + "/" + key));
+        }
+        return varout;
+    }
     public static bool EnterFloat(string key)
     {
         bool a = false;
@@ -82,5 +97,14 @@ public class VarSave
         }
         return a;
     }
-    
+    public static bool EnterFloat2(string key)
+    {
+        bool a = false;
+        if (File.Exists(path2 + "/" + key))
+        {
+            a = true;
+        }
+        return a;
+    }
+
 }
